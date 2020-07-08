@@ -1,0 +1,23 @@
+---
+label: Muyidon
+hide_body: true
+fields:
+- type: text
+  name: title
+  label: title
+- type: text
+  name: bio
+  label: bio
+- type: file
+  name: avatar
+  label: avatar
+- type: field_group_list
+  name: social
+  label: social
+  fields:
+  - type: text
+    name: title
+    label: title
+  - type: text
+    name: url
+    label: url
