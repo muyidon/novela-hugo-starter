@@ -1,6 +1,6 @@
 baseURL: "https://example.com"
 languageCode: "en-us"
-title: "M.K DataBlog"
+title: "M.K Blog"
 pygmentsstyle: 'monokai'
 
 # Theme settings
