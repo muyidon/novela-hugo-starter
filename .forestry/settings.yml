@@ -4,12 +4,11 @@ auto_deploy: false
 admin_path: ''
 webhook_url: 
 sections:
+- type: heading
+  label: Content
 - type: document
   path: layouts/partials/icons/ui/logo.html
   label: logo
-  match: "**/*"
-- type: heading
-  label: Content
 - type: document
   path: content/_index.md
   label: Home
