@@ -1,7 +1,7 @@
 ---
 title: M.K
 bio: This is where your bio lives.
-avatar: "/images/brad-tiller.jpg"
+avatar: "/images/favicon.svg"
 social:
 - title: github
   url: https://github.com
