@@ -1,9 +1,8 @@
-baseURL: "https://example.com"
-languageCode: "en-us"
-title: "M.K Blog"
-pygmentsstyle: 'monokai'
-
-# Theme settings
+---
+baseURL: https://example.com
+languageCode: en-us
+title: M.K Blog
+pygmentsstyle: monokai
 theme: novela
 paginate: 6
 social:
