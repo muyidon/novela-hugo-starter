@@ -5,7 +5,7 @@ hero: "/images/hero-2.jpg"
 excerpt: ''
 timeToRead: 10
 authors:
-- Dennis Brotzky
+- M.K
 
 ---
 Hello World!.
