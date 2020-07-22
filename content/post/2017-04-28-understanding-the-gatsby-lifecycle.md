@@ -37,11 +37,11 @@ Hello World!.
 
     lottery = pd.read_csv('new649.csv',
     
-                         parse_dates = ['DRAW DATE'],
+           parse_dates = ['DRAW DATE'],
     
-                         index_col = ['DRAW DATE'],
+           index_col = ['DRAW DATE'],
     
-                         na_values =[999.9])
+           na_values =[999.9])
     
     lottery.head()
 
@@ -60,7 +60,7 @@ Hello World!.
 #### **_#having a look at the 11 columns in the dataset_**
 
     lottery.columns
-
+    
     lottery.info()
 
 > ###### **_Looking at the data info, seems only the draw date is under an object catergories , while the rest are integers_**
@@ -69,7 +69,8 @@ Hello World!.
 
 #### **_#USING THE drop_column function_**
 
-    drop_cols = ['PRODUCT', 'DRAW NUMBER', 'SEQUENCE NUMBER']
+    drop_cols = ['PRODUCT',
+    'DRAW NUMBER', 'SEQUENCE NUMBER']
 
 #### **_#assigning a new keyword to read the new dataframes from the dataset_**
 
@@ -88,7 +89,10 @@ Hello World!.
 >
 > ###### **_Now, we could do this in the old school way of having to type a long quote of codes like this  below :_**
 
-    clean_lottery["TOTAL NUMBER"] = clean_lottery['NUMBER DRAWN 1'] + clean_lottery['NUMBER DRAWN 2'] + clean_lottery['NUMBER DRAWN 3'] + clean_lottery['NUMBER DRAWN 4'] + clean_lottery['NUMBER DRAWN 5'] + clean_lottery['NUMBER DRAWN 6'] + clean_lottery['BONUS NUMBER']
+    clean_lottery["TOTAL NUMBER"] = clean_lottery['NUMBER DRAWN 1'] 
+    + clean_lottery['NUMBER DRAWN 2'] + clean_lottery['NUMBER DRAWN 3'] 
+    + clean_lottery['NUMBER DRAWN 4'] + clean_lottery['NUMBER DRAWN 5']
+    + clean_lottery['NUMBER DRAWN 6'] + clean_lottery['BONUS NUMBER']
     clean_lottery.head()
 
 **_But before checking out the other means of getting the sum total of the number drawn, first we have to remove the dataframe 'TOTAL NUMBER' from the dataset_**
@@ -125,7 +129,7 @@ Hello World!.
 **_VOILA!!!,  Now we have them in an order state from the biggest to the smallest. Speaking of smallest , how about we have a look_**
 
     clean_lottery['TOTAL NUMBER'].max()
-
+    
     clean_lottery['TOTAL NUMBER'].min()
 
 **_48!! unbelievable..._**
@@ -133,7 +137,7 @@ Hello World!.
 **_let have a look at the Statistics Summary of the dataset_**
 
     clean_lottery.describe().transpose()
-
+    
     clean_lottery['TOTAL NUMBER'].mode()
 
 #### **_#shall we see how many times 170 occured_**
@@ -146,7 +150,10 @@ Hello World!.
 
 **_#checking for duplicate_**
 
-    clean_lottery[['NUMBER DRAWN 1', 'NUMBER DRAWN 2', 'NUMBER DRAWN 3', 'NUMBER DRAWN 4', 'NUMBER DRAWN 5', 'NUMBER DRAWN 6', 'BONUS NUMBER']].duplicated().head(20)
+    clean_lottery[['NUMBER DRAWN 1', 
+    'NUMBER DRAWN 2', 'NUMBER DRAWN 3',
+    'NUMBER DRAWN 4', 'NUMBER DRAWN 5', 
+    'NUMBER DRAWN 6', 'BONUS NUMBER']].duplicated().head(20)
 
 **_Surprisingly, it's all came out as False._**
 
@@ -180,7 +187,7 @@ color = 'red')
 
 ax.set(xlabel = 'Date',
 
-  ylabel = 'NUMBER DRAWN 1',  title= 'Lotto')
+ylabel = 'NUMBER DRAWN 1',  title= 'Lotto')
 
 plt.show()
 
