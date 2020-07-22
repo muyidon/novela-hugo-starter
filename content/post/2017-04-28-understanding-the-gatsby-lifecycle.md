@@ -10,7 +10,7 @@ authors:
 ---
 Hello World!.
 
-#### **_#Data cleaning and preparation_**
+## **_#Data cleaning and preparation_**
 
 #### **_#importing the libraries_**
 
@@ -69,99 +69,93 @@ Hello World!.
 
 #### **_#USING THE drop_column function_**
 
-drop_cols = \['PRODUCT', 'DRAW NUMBER', 'SEQUENCE NUMBER'\]
+    drop_cols = ['PRODUCT', 'DRAW NUMBER', 'SEQUENCE NUMBER']
 
-\#assigning a new keyword to read the new dataframes from the dataset
+#### **_#assigning a new keyword to read the new dataframes from the dataset_**
 
-clean_lottery = lottery.drop(drop_cols, axis = 1)
+    clean_lottery = lottery.drop(drop_cols, axis = 1)
+    clean_lottery.head()
 
-clean_lottery.head()
+> **_the product, draw number and sequence number columns are dropped_**
+>
+> **_looking at the new dataset , there are only the numbers drawns and bonus. so i thought, there should be a sum of the all the numbers drawns_**
+>
+> **_Here, a sum column will be added to the dataframe containing only the sum total of the drawn numbers from 1 to 6, including the bonus number_**
+>
+> **_Now, we could do this in the old school way of having to type a long quote of codes like this  below :_**
 
-the product, draw number and sequence number columns are dropped
+    clean_lottery["TOTAL NUMBER"] = clean_lottery['NUMBER DRAWN 1'] + clean_lottery['NUMBER DRAWN 2'] + clean_lottery['NUMBER DRAWN 3'] + clean_lottery['NUMBER DRAWN 4'] + clean_lottery['NUMBER DRAWN 5'] + clean_lottery['NUMBER DRAWN 6'] + clean_lottery['BONUS NUMBER']
+    clean_lottery.head()
 
-looking at the new dataset , there are only the numbers drawns and bonus. so i thought, there should be a sum of the all the numbers drawns
+**_But before checking out the other means of getting the sum total of the number drawn, first we have to remove the dataframe 'TOTAL NUMBER' from the dataset_**
 
-Here, a sum column will be added to the dataframe containing only the sum total of the drawn numbers from 1 to 6, including the bonus number
+    TOTAL = clean_lottery.pop('TOTAL NUMBER')
+    TOTAL.head(10)
 
-Now, we could do this in the old school way of having to type a long quote of codes like this  below :
+#### **_#Now to find out if it's really the dataframe has being popped out_**
 
-clean_lottery\["TOTAL NUMBER"\] = clean_lottery\['NUMBER DRAWN 1'\] + clean_lottery\['NUMBER DRAWN 2'\] + clean_lottery\['NUMBER DRAWN 3'\] + clean_lottery\['NUMBER DRAWN 4'\] + clean_lottery\['NUMBER DRAWN 5'\] + clean_lottery\['NUMBER DRAWN 6'\] + clean_lottery\['BONUS NUMBER'\]
+    clean_lottery.head(10)
 
-clean_lottery.head()
+> **_It's sure has !_**
+>
+> **_Now shall we proceed ?..._**
+>
+> **_first we assign the clean_lottery dataset to a keyword column_list of the dataframe to sum up_**
 
-But before checking out the other means of getting the sum total of the number drawn, first we have to remove the dataframe 'TOTAL NUMBER' from the dataset
+#### **_#assigning the clean_lottery dataset to a keyword column_list of the dataframe to sum up_**
 
-TOTAL = clean_lottery.pop('TOTAL NUMBER')
+    column_list =  list(clean_lottery)
 
-TOTAL.head(10)
+**_And then add the new dataframe to the dataset, assigning it to the column list with the 'sum' function to get the figures of the number drawns_**
 
-\#Now to find out if it's really the dataframe has being popped out
+    clean_lottery["TOTAL NUMBER"] = clean_lottery[column_list].sum(axis = 1)
+    clean_lottery.head(20)
 
-clean_lottery.head(10)
+**_Now you see, and if you check the figures of this, comparing it with the former total number above , you will see it's the same... So we have it a more comfortable method_**
 
-It's sure has !
+**_So we have the TOTAL NUMBER of the drawn numbers, but then looking at the figures , they are not in an order form, so let have they put in an order form using the sort_value function_**
 
-Now shall we proceed ?...
+    clean_lottery = clean_lottery.sort_values(by = 'TOTAL NUMBER', ascending = False)
+    clean_lottery.head(20)
 
-first we assign the clean_lottery dataset to a keyword column_list of the dataframe to sum up
+**_VOILA!!!,  Now we have them in an order state from the biggest to the smallest. Speaking of smallest , how about we have a look_**
 
-\#assigning the clean_lottery dataset to a keyword column_list of the dataframe to sum up
+    clean_lottery['TOTAL NUMBER'].max()
 
-column_list =  list(clean_lottery)
+    clean_lottery['TOTAL NUMBER'].min()
 
-And then add the new dataframe to the dataset, assigning it to the column list with the 'sum' function to get the figures of the number drawns
+**_48!! unbelievable..._**
 
-clean_lottery\["TOTAL NUMBER"\] = clean_lottery\[column_list\].sum(axis = 1)
+**_let have a look at the Statistics Summary of the dataset_**
 
-clean_lottery.head(20)
+    clean_lottery.describe().transpose()
 
-Now you see, and if you check the figures of this, comparing it with the former total number above , you will see it's the same... So we have it a more comfortable method
+    clean_lottery['TOTAL NUMBER'].mode()
 
-So we have the TOTAL NUMBER of the drawn numbers, but then looking at the figures , they are not in an order form, so let have they put in an order form using the sort_value function
+#### **_#shall we see how many times 170 occured_**
 
-clean_lottery = clean_lottery.sort_values(by = 'TOTAL NUMBER', ascending = False)
+    clean_lottery['TOTAL NUMBER'].value_counts().to_frame().head(10)
 
-clean_lottery.head(20)
+**_Looking the output above, some total number occurred more than once. could it be that some drawn numbers from 1 to 6 with the bonus number occurred the same numbers to have given the same total number ?._**
 
-VOILA!!!,  Now we have them in an order state from the biggest to the smallest. Speaking of smallest , how about we have a look
+**_Let have a look at the dataframe from number drawn 1 to bonus number for any duplicate_**
 
-clean_lottery\['TOTAL NUMBER'\].max()
+**_#checking for duplicate_**
 
-clean_lottery\['TOTAL NUMBER'\].min()
+    clean_lottery[['NUMBER DRAWN 1', 'NUMBER DRAWN 2', 'NUMBER DRAWN 3', 'NUMBER DRAWN 4', 'NUMBER DRAWN 5', 'NUMBER DRAWN 6', 'BONUS NUMBER']].duplicated().head(20)
 
-48!! unbelievable...
+**_Surprisingly, it's all came out as False._**
 
-let have a look at the Statistics Summary of the dataset
+**_So what could have made the TOTAL NUMBER figures duplicate?, let have a llok at the duplicated dataframes in the TOTAL NUMBER_**
 
-clean_lottery.describe().transpose()
+**_#checking the duplicated Numbers in the TOTAL NUMBER dataframe and outputting them with the full dataframe from the Date to the bonus number dataset_**
 
-clean_lottery\['TOTAL NUMBER'\].mode()
+    dep_lottery = clean_lottery[clean_lottery.duplicated(['TOTAL NUMBER'])]
+    dep_lottery.head(15)
 
-\#shall we see how many times 170 occured
+**_Turn out the duplicated Total numbers are made up of different combinations of numbers from Number drawn 1 to the Bonus number, but ending up duplicating the TOTAL NUMBER_**
 
-clean_lottery\['TOTAL NUMBER'\].value_counts().to_frame().head(10)
-
-Looking the output above, some total number occurred more than once. could it be that some drawn numbers from 1 to 6 with the bonus number occurred the same numbers to have given the same total number ?.
-
-Let have a look at the dataframe from number drawn 1 to bonus number for any duplicate
-
-\#checking for duplicate
-
-clean_lottery\[\['NUMBER DRAWN 1', 'NUMBER DRAWN 2', 'NUMBER DRAWN 3', 'NUMBER DRAWN 4', 'NUMBER DRAWN 5', 'NUMBER DRAWN 6', 'BONUS NUMBER'\]\].duplicated().head(20)
-
-Surprisingly, it's all came out as False.
-
-So what could have made the TOTAL NUMBER figures duplicate?, let have a llok at the duplicated dataframes in the TOTAL NUMBER
-
-\#checking the duplicated Numbers in the TOTAL NUMBER dataframe and outputting them with the full dataframe from the Date to the bonus number dataset
-
-dep_lottery = clean_lottery\[clean_lottery.duplicated(\['TOTAL NUMBER'\])\]
-
-dep_lottery.head(15)
-
-Turn out the duplicated Total numbers are made up of different combinations of numbers from Number drawn 1 to the Bonus number, but ending up duplicating the TOTAL NUMBER
-
-\# Data Visualization
+## **# Data Visualization**
 
 So far so good, it's time to do some visualiztion
 
