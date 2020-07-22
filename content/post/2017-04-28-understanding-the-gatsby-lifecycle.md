@@ -63,9 +63,9 @@ Hello World!.
 
     lottery.info()
 
-> ###### Looking at the data info, seems only the draw date is under an object catergories , while the rest are integers
+> ###### **_Looking at the data info, seems only the draw date is under an object catergories , while the rest are integers_**
 
-> ###### Now removing the un_needed columns from the dataframe. such as "Product", "DRAW NUMBER", "SEQUENCE NUMBER"
+> ###### **_Now removing the un_needed columns from the dataframe. such as "Product", "DRAW NUMBER", "SEQUENCE NUMBER"_**
 
 #### **_#USING THE drop_column function_**
 
@@ -76,13 +76,17 @@ Hello World!.
     clean_lottery = lottery.drop(drop_cols, axis = 1)
     clean_lottery.head()
 
-> **_the product, draw number and sequence number columns are dropped_**
+###### 
+
+###### 
+
+> ###### **_the product, draw number and sequence number columns are dropped_**
 >
-> **_looking at the new dataset , there are only the numbers drawns and bonus. so i thought, there should be a sum of the all the numbers drawns_**
+> ###### **_looking at the new dataset , there are only the numbers drawns and bonus. so i thought, there should be a sum of the all the numbers drawns_**
 >
-> **_Here, a sum column will be added to the dataframe containing only the sum total of the drawn numbers from 1 to 6, including the bonus number_**
+> ###### **_Here, a sum column will be added to the dataframe containing only the sum total of the drawn numbers from 1 to 6, including the bonus number_**
 >
-> **_Now, we could do this in the old school way of having to type a long quote of codes like this  below :_**
+> ###### **_Now, we could do this in the old school way of having to type a long quote of codes like this  below :_**
 
     clean_lottery["TOTAL NUMBER"] = clean_lottery['NUMBER DRAWN 1'] + clean_lottery['NUMBER DRAWN 2'] + clean_lottery['NUMBER DRAWN 3'] + clean_lottery['NUMBER DRAWN 4'] + clean_lottery['NUMBER DRAWN 5'] + clean_lottery['NUMBER DRAWN 6'] + clean_lottery['BONUS NUMBER']
     clean_lottery.head()
