@@ -157,13 +157,12 @@ Hello World!.
 
 ## **# Data Visualization**
 
-So far so good, it's time to do some visualiztion
+**_So far so good, it's time to do some visualiztion_**
 
-\#lottery dates and time
+#### **_#lottery dates and time_**
 
-lotteryDate = clean_lottery\['1984-02-25':'1984-11-12'\]
-
-lotteryDate.head()
+    lotteryDate = clean_lottery['1984-02-25':'1984-11-12']
+    lotteryDate.head()
 
 fig, ax = plt.subplots(figsize=(12, 12))
 
@@ -171,15 +170,13 @@ fig, ax = plt.subplots(figsize=(12, 12))
 
 ax.bar(lotteryDate.index.values, lotteryDate\['NUMBER DRAWN 1'\],
 
-       color = 'red')
+color = 'red')
 
 \#set title and labels for axes
 
 ax.set(xlabel = 'Date',
 
-      ylabel = 'NUMBER DRAWN 1',
-    
-      title= 'Lotto')
+  ylabel = 'NUMBER DRAWN 1',  title= 'Lotto')
 
 plt.show()
 
