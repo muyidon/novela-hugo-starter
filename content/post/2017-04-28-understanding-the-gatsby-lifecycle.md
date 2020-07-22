@@ -10,9 +10,9 @@ authors:
 ---
 Hello World!.
 
-**_#Data cleaning and preparation_**
+#### **_#Data cleaning and preparation_**
 
-**_#importing the libraries_**
+#### **_#importing the libraries_**
 
     %matplotlib inline
     import os
