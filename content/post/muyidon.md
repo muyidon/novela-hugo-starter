@@ -8,5 +8,7 @@ timeToRead = 12
 title = "Muyidon"
 
 +++
+view the notebook
+
 <f:entry> <iframe width = "500" height=" 600" src="[http://localhost:8888/notebooks/lotto649%20Analyst.ipynb](http://localhost:8888/notebooks/lotto649%20Analyst.ipynb)" </iframe>
 </f:entry>
