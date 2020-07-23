@@ -7,7 +7,6 @@ sections:
 - type: document
   path: layouts/partials/head/head.html
   label: head
-  match: "**/*"
 - type: heading
   label: Content
 - type: document

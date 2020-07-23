@@ -1,184 +1,210 @@
 ---
-title: Understanding the Gatsby lifecycle in depth
-date: 2017-04-28
-hero: /images/hero-2.jpg
-excerpt: With the growing community interest in Gatsby, we hope to create more resources that make it easier for anyone to grasp the power of this incredible tool.
-timeToRead: 4
+title: Exploratory Data Analysis on canada649 Lottery
+date: 2020-07-22T07:00:00+00:00
+hero: "/images/hero-2.jpg"
+excerpt: ''
+timeToRead: 10
 authors:
-  - Dennis Brotzky
+- M.K
 
 ---
+Hello World!.
 
-Hello, world! This is a demo post for `hugo-theme-novela`. Novela is built by the team at [Narative](https://narative.co), and built for everyone that loves the web.
+## **_#Data cleaning and preparation_**
 
-At Narative, we’ve been fans of Gatsby from day one, using it to build performant and flexible products for both clients and ourselves. With the growing community interest in Gatsby, we hope to create more resources that make it easier for anyone to grasp the power of this incredible tool.
-At Narative, we’ve been fans of Gatsby from day one, using it to build performant and flexible products for both clients and ourselves. With the growing community interest in Gatsby, we hope to create more resources that make it easier for anyone to grasp the power of this incredible tool.
+#### **_#importing the libraries_**
 
-```js
-import React from "react";
-import { graphql, useStaticQuery } from "gatsby";
-import styled from "@emotion/styled";
+    %matplotlib inline 
+    import os 
+    import pandas as pd
+    import numpy as np 
+    import matplotlib.pyplot as plt 
+    import matplotlib.dates as mdates from matplotlib.dates
+    import DateFormatter
 
-import * as SocialIcons from "../../icons/social";
-import mediaqueries from "@styles/media";
+    #Handle date time conversions between pandas and matplotlib
+    from pandas.plotting import register_matplotlib_converters
+    register_matplotlib_converters()
+    import  seaborn as sns
+    
+    
+    #use white grid plot background from seaborn 
+    #sns.set(font_scale = 1.5, style= "whitegrid")
+    
+    import random </code>
+    
+     #Assigning the keyword 'lottery'
+    
+    lottery = pd.read_csv('new649.csv',
+    
+           parse_dates = ['DRAW DATE'],
+    
+           index_col = ['DRAW DATE'],
+    
+           na_values =[999.9])
+    
+    lottery.head()
 
-const icons = {
-  dribbble: SocialIcons.DribbbleIcon,
-  linkedin: SocialIcons.LinkedinIcon,
-  twitter: SocialIcons.TwitterIcon,
-  facebook: SocialIcons.FacebookIcon,
-  instagram: SocialIcons.InstagramIcon,
-  github: SocialIcons.GithubIcon,
-};
+#### **_#let check to see if there are any null values_**
 
-const socialQuery = graphql`
-  {
-    allSite {
-      edges {
-        node {
-          siteMetadata {
-            social {
-              name
-              url
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+    lottery.isnull().any().any()
 
-function SocialLinks({ fill = "#73737D" }: { fill: string }) {
-  const result = useStaticQuery(socialQuery);
-  const socialOptions = result.allSite.edges[0].node.siteMetadata.social;
+> ##### thanksfully, the answer is FALSE
 
-  return (
-    <>
-      {socialOptions.map(option => {
-        const Icon = icons[option.name];
+    lottery.count()
 
-        return (
-          <SocialIconContainer
-            key={option.name}
-            target="_blank"
-            rel="noopener"
-            data-a11y="false"
-            aria-label={`Link to ${option.name}`}
-            href={option.url}
-          >
-            <Icon fill={fill} />
-          </SocialIconContainer>
-        );
-      })}
-    </>
-  );
-}
-```
+#### **_#let look at the shape of the data_**
 
-This is another paragraph after the code block.
+    lottery.shape
 
-## This is a secondary heading
+#### **_#having a look at the 11 columns in the dataset_**
 
-```jsx
-import React from "react";
-import { ThemeProvider } from "theme-ui";
-import theme from "./theme";
+    lottery.columns
+    
+    lottery.info()
 
-export default props => (
-  <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
-);
-```
+> ###### **_Looking at the data info, seems only the draw date is under an object catergories , while the rest are integers_**
 
-At Narative, we’ve been fans of Gatsby from day one, using it to build performant and flexible products for both clients and ourselves. With the growing community interest in Gatsby, we hope to create more resources that make it easier for anyone to grasp the power of this incredible tool.
+> ###### **_Now removing the un_needed columns from the dataframe. such as "Product", "DRAW NUMBER", "SEQUENCE NUMBER"_**
 
-In this article I’ll explain how Gatsby’s lifecycle works and what the Gatsby specific files are for.
+#### **_#USING THE drop_column function_**
 
-One of the challenges I had when learning Gatsby was trying to understand the Gatsby lifecycle. React introduced me to the concept of a Component Lifecycle, but when I started learning Gatsby I felt at a loss again. I remember looking through example repositories and seeing Gatsby specific files in every project and thinking to myself, “What are these files for? Why are gatsby-node.js, gatsby-browser.js, and gatsby-ssr.js generated in the default starter kit? Can I really delete these files?”
+    drop_cols = ['PRODUCT',
+    'DRAW NUMBER', 'SEQUENCE NUMBER']
 
-In this article I’ll explain the how Gatsby’s lifecycle works and what the Gatsby specific files are for.
+#### **_#assigning a new keyword to read the new dataframes from the dataset_**
 
-## How does Gatsby work?
+    clean_lottery = lottery.drop(drop_cols, axis = 1)
+    clean_lottery.head()
 
-To understand what these files are for, we must first understand how Gatsby works. Gatsby is a static site generator that pulls data from sources you provide and generates a website/app for you.
+###### 
 
-Gatsby requires Node to be installed to run the Bootstrap and Build sequences. Under the hood, Gatsby uses Webpack to build and start a development server amongst other things.
+###### 
 
-### Step 1
+> ###### **_the product, draw number and sequence number columns are dropped_**
+>
+> ###### **_looking at the new dataset , there are only the numbers drawns and bonus. so i thought, there should be a sum of the all the numbers drawns_**
+>
+> ###### **_Here, a sum column will be added to the dataframe containing only the sum total of the drawn numbers from 1 to 6, including the bonus number_**
+>
+> ###### **_Now, we could do this in the old school way of having to type a long quote of codes like this  below :_**
 
-During the Bootstrap sequence, which occurs every time you run \$ gatsby develop, there are about 20 events that fire ranging from validating your gatsby-config.js to building the data schemas and pages for your site. For example, the Bootstrap sequence is where Gatsby will create pages. If you want an in depth look of all 20 Bootstrap steps Swyx shared a fantastic Gist that goes into more detail.
+    clean_lottery["TOTAL NUMBER"] = clean_lottery['NUMBER DRAWN 1'] 
+    + clean_lottery['NUMBER DRAWN 2'] + clean_lottery['NUMBER DRAWN 3'] 
+    + clean_lottery['NUMBER DRAWN 4'] + clean_lottery['NUMBER DRAWN 5']
+    + clean_lottery['NUMBER DRAWN 6'] + clean_lottery['BONUS NUMBER']
+    clean_lottery.head()
 
-### Step 2
+**_But before checking out the other means of getting the sum total of the number drawn, first we have to remove the dataframe 'TOTAL NUMBER' from the dataset_**
 
-The Build sequence is very similar to the Bootstrap sequence, except it’s run with production optimizations and will output static files ready for deployment. Think of it as building your React application in production mode vs development.
+    TOTAL = clean_lottery.pop('TOTAL NUMBER')
+    TOTAL.head(10)
 
-### Step 3
+#### **_#Now to find out if it's really the dataframe has being popped out_**
 
-And finally, once the generated files are deployed, Gatsby lives in the browser. Gatsby cleverly generates a static website that turns into a web app after initial load, which extends the lifecycle to the browser.
+    clean_lottery.head(10)
 
-What’s important to remember is that Gatsby’s lifecycle can be aggregated into 3 main sequences:
+> **_It's sure has !_**
+>
+> **_Now shall we proceed ?..._**
+>
+> **_first we assign the clean_lottery dataset to a keyword column_list of the dataframe to sum up_**
 
-![This is the alt text](./images/gatsby-narative-output.png)
+#### **_#assigning the clean_lottery dataset to a keyword column_list of the dataframe to sum up_**
 
-- Bootstrap
-- Build
-- Browser
-- These three sequences makeup the Gatsby lifecycle.
+    column_list =  list(clean_lottery)
 
-Parts of the lifecycle are visible when running $ gatsby develop
-A peak into the Gatsby lifecycle when running $ gatsby develop
-A peak into the Gatsby lifecycle when running \$ gatsby develop
-If you’re familiar with React and the component lifecycle, Gatsby’s lifecycle is almost the same concept. Just like React’s lifecycle, Gatsby exposes hooks for developers to build on top of. Those lifecycle hooks are accessed through Gatsby specific files such as gatsby-node.js, gatsby-browser.js and gatsby-ssr.js.
+**_And then add the new dataframe to the dataset, assigning it to the column list with the 'sum' function to get the figures of the number drawns_**
 
-What are the Gatsby specific files for?
-gatsby-config.js
-A place to put all your site configurations such as plugins, metadata, and polyfills. This file is the blueprint of your application and is where Gatsby really shines with its plugin system. When you run $ gatsby develop or $ gatsby build gatsby-config.js is the first file to be read and validated.
+    clean_lottery["TOTAL NUMBER"] = clean_lottery[column_list].sum(axis = 1)
+    clean_lottery.head(20)
 
-Most of your time spent in gatsby-config.js will likely revolve around source plugins, image plugins, offline support, styling options, and site metadata.
+**_Now you see, and if you check the figures of this, comparing it with the former total number above , you will see it's the same... So we have it a more comfortable method_**
 
-gatsby-node.js
-Gatsby runs a Node process when you develop or build your website and uses Webpack under the hood to spin up a development server with hot reloading. During the Node process Gatsby will load plugins, check the cache, bootstrap the website, build the data schema, create pages, and deal with some configuration and data management.
+**_So we have the TOTAL NUMBER of the drawn numbers, but then looking at the figures , they are not in an order form, so let have they put in an order form using the sort_value function_**
 
-Everything that occurs during the Bootstrap and Build sequences occurs in gatsby-node.js. This means it’s the perfect place to create pages dynamically based off data from a source plugin or modify Gatsby’s Webpack or Babel configs.
+    clean_lottery = clean_lottery.sort_values(by = 'TOTAL NUMBER', ascending = False)
+    clean_lottery.head(20)
 
-For example, if you want to move some files manually, such as a Netlify \_redirects file, a good place to do it is in your gatsby-node.js file at the onPostBuild lifecycle hook.
+**_VOILA!!!,  Now we have them in an order state from the biggest to the smallest. Speaking of smallest , how about we have a look_**
 
-From experience, most of my time has revolved around handling data and building pages in gatsby-node.js. This file quickly becomes the piping of your entire website.
+    clean_lottery['TOTAL NUMBER'].max()
+    
+    clean_lottery['TOTAL NUMBER'].min()
 
-## Examples of gatsby-node.js hooks:
+**_48!! unbelievable..._**
 
-- createPages
-- onCreateBabelConfig
-- onCreateWebpackConfig
-- onPostBuild
-- gatsby-ssr.js
+**_let have a look at the Statistics Summary of the dataset_**
 
-When you think Server Side Rendering you think of a server that takes in requests and dynamically builds pages and sends it to the client. Gatsby doesn’t do that, but it does server side render — it generates all the pages during build time.
+    clean_lottery.describe().transpose()
+    
+    clean_lottery['TOTAL NUMBER'].mode()
 
-Naturally, gatsby-ssr.js allows developers to hook into that lifecycle. In my experience, most use cases revolve around injecting CSS, HTML, or Redux state information into the generated output. For example, if you need to insert third party scripts such as Analytics Tracking or a Pixel it can be done on the onRenderBody gatsby-ssr.js hook.
+#### **_#shall we see how many times 170 occured_**
 
-## Examples of gatsby-ssr.js hooks:
+    clean_lottery['TOTAL NUMBER'].value_counts().to_frame().head(10)
 
-- onPreRenderHTML
-- onRenderBody
-- replaceRenderer
-- gatsby-browser.js
+**_Looking the output above, some total number occurred more than once. could it be that some drawn numbers from 1 to 6 with the bonus number occurred the same numbers to have given the same total number ?._**
 
-Gatsby is a static site that loads a dynamic application after initial load, which means you get the benefits of a static site in a web application. gatsby-browser.js provides convenient hooks to deal with app loading, route updates, service worker updates, scroll positioning, and more.
+**_Let have a look at the dataframe from number drawn 1 to bonus number for any duplicate_**
 
-Everything that occurs after your static site has loaded can be hooked in gatsby-browser.js. For apps that I’ve built, gatsby-browser.js was mostly used for keeping track of routes, scroll positioning, and sending analytics events.
+**_#checking for duplicate_**
 
-## Examples of gatsby-browser.js hooks:
+    clean_lottery[['NUMBER DRAWN 1', 
+    'NUMBER DRAWN 2', 'NUMBER DRAWN 3',
+    'NUMBER DRAWN 4', 'NUMBER DRAWN 5', 
+    'NUMBER DRAWN 6', 'BONUS NUMBER']].duplicated().head(20)
 
-- onClientEntry
-- onRouteUpdate
-- onServiceWorkerInstalled
-- registerServiceWorker
-- shouldUpdateScroll
+**_Surprisingly, it's all came out as False._**
 
-## Conclusion
+**_So what could have made the TOTAL NUMBER figures duplicate?, let have a llok at the duplicated dataframes in the TOTAL NUMBER_**
 
-Gatsby is built with React at its core and shares a common API pattern, the lifecycle. This lifecycle gives developers access to key moments in their website’s process through specific hooks. For example, adding analytics can be achieved through the Browser lifecycle hook onClientEntry. Gatsby reserves specific filenames as an entry point to access every lifecycle; these files are named gatsby-node.js, gatsby-ssr.js and gatsby-browser.js.
+**_#checking the duplicated Numbers in the TOTAL NUMBER dataframe and outputting them with the full dataframe from the Date to the bonus number dataset_**
 
-Without the Gatsby lifecycle, it would be impossible to customize and modify your project beyond the base configuration, leaving developers with a rigid and poor developer experience. This power and flexibility has helped us build amazing web projects for clients like Hopper!
+    dep_lottery = clean_lottery[clean_lottery.duplicated(['TOTAL NUMBER'])]
+    dep_lottery.head(15)
 
-Gatsby is a staple within our engineering process at Narative, helping us help our clients build the products they’ve always dreamed of, and the ones they’re yet to dream up.
+**_Turn out the duplicated Total numbers are made up of different combinations of numbers from Number drawn 1 to the Bonus number, but ending up duplicating the TOTAL NUMBER_**
+
+## **# Data Visualization**
+
+**_So far so good, it's time to do some visualiztion_**
+
+#### **_#lottery dates and time_**
+
+    lotteryDate = clean_lottery['1984-02-25':'1984-11-12']
+    lotteryDate.head()
+
+fig, ax = plt.subplots(figsize=(12, 12))
+
+\#add x-axis and y-axis
+
+ax.bar(lotteryDate.index.values, lotteryDate\['NUMBER DRAWN 1'\],
+
+color = 'red')
+
+\#set title and labels for axes
+
+ax.set(xlabel = 'Date',
+
+ylabel = 'NUMBER DRAWN 1',  title= 'Lotto')
+
+plt.show()
+
+fig, ax = plt.subplots(figsize=(12, 12))
+
+ax.bar(lotteryDate.index.values, lotteryDate\['NUMBER DRAWN 2'\],
+
+       color = 'purple')
+
+\#set title and labels for axes
+
+ax.set(xlabel = 'Date',
+
+      ylabel = 'NUMBER DRAWN 1',
+    
+      title= 'Lotto')
+
+plt.tight_layout()
+
+    plt.show()
