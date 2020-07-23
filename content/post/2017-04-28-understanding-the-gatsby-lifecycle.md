@@ -14,14 +14,14 @@ Hello World!.
 
 #### **_#importing the libraries_**
 
-   <code> %matplotlib inline
-    import os
+    %matplotlib inline 
+    import os 
     import pandas as pd
-    import numpy as np
-    import matplotlib.pyplot as plt
-    import matplotlib.dates as mdates
-    from matplotlib.dates import DateFormatter
-    
+    import numpy as np 
+    import matplotlib.pyplot as plt 
+    import matplotlib.dates as mdates from matplotlib.dates
+    import DateFormatter
+
     #Handle date time conversions between pandas and matplotlib
     from pandas.plotting import register_matplotlib_converters
     register_matplotlib_converters()
@@ -32,9 +32,9 @@ Hello World!.
     #sns.set(font_scale = 1.5, style= "whitegrid")
     
     import random </code>
-
+    
      #Assigning the keyword 'lottery'
-
+    
     lottery = pd.read_csv('new649.csv',
     
            parse_dates = ['DRAW DATE'],
