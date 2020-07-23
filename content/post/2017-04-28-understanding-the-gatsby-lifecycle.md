@@ -33,7 +33,7 @@ Hello World!.
     
     import random </code>
 
-#### **_#Assigning the keyword 'lottery' _**
+     #Assigning the keyword 'lottery'
 
     lottery = pd.read_csv('new649.csv',
     
