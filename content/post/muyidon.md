@@ -3,7 +3,7 @@ authors = ["M.K"]
 date = 2020-07-23T07:00:00Z
 draft = true
 excerpt = ""
-hero = "/images/img-20180129-wa0063.jpg"
+hero = "/images/muyi-avatar.jpg"
 timeToRead = 12
 title = "Muyidon"
 
