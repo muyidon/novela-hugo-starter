@@ -9,4 +9,6 @@ title = "Muyidon"
 +++
 view the notebook
 
-<iframe width = "500" height=" 600" src="[http://localhost:8889/notebooks/lotto649%20Analyst.ipynb](http://localhost:8889/notebooks/lotto649%20Analyst.ipynb)" </iframe> 
+<f:entry>
+<iframe width = "700" height=" 600" src="[http://localhost:8889/notebooks/lotto649%20Analyst.ipynb](http://localhost:8889/notebooks/lotto649%20Analyst.ipynb)"  </iframe>
+</f:entry>
