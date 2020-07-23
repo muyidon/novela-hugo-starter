@@ -14,7 +14,7 @@ Hello World!.
 
 #### **_#importing the libraries_**
 
-    %matplotlib inline
+   <code> %matplotlib inline
     import os
     import pandas as pd
     import numpy as np
@@ -31,7 +31,7 @@ Hello World!.
     #use white grid plot background from seaborn 
     #sns.set(font_scale = 1.5, style= "whitegrid")
     
-    import random
+    import random </code>
 
 #### **_#Assigning the keyword 'lottery' _**
 
