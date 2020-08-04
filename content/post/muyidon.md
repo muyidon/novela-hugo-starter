@@ -7,6 +7,4 @@ timeToRead = 12
 title = "EDA ON CANADA6/49 LOTTERY DATA"
 
 +++
-<iframe src="https://jovian.ml/embed?url=https://jovian.ml/muyidon/lotto649-analyst/v/1" title="Jovian Viewer" height="800" width="800" frameborder="0" scrolling="auto"></iframe>
-
-
+<iframe src = "https://jovian.ml/muyidon/lotto649-analyst/v/1"</iframe>
